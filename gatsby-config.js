@@ -18,14 +18,16 @@ module.exports = {
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
-        extensions: ['.mdx', '.md'],
+        extensions: [".mdx", ".md"],
         defaultLayouts: {
           // This entry template will switch the page template based on
           // a frontmatter value provided in the CMS, allowing users to
           // choose different template layouts.
-          default: require.resolve(`./src/page-templates/cms-entry.template.js`)
+          default: require.resolve(
+            `./src/page-templates/cms-entry.template.js`
+          ),
         },
-      }
+      },
     },
     {
       resolve: `gatsby-plugin-manifest`,
@@ -46,6 +48,14 @@ module.exports = {
       resolve: `gatsby-plugin-netlify-cms`,
       options: {
         modulePath: `${__dirname}/src/cms/cms.js`, // for custom preview in the Netlify CMS
+        customizeWebpackConfig: config => {
+          config.node = {
+            ...config.node,
+            fs: "empty",
+            child_process: "empty",
+            module: "empty",
+          }
+        },
       },
     },
   ],
